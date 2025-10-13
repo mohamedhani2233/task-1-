@@ -1,0 +1,61 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int linearSearch(const vector<int>& arr, int value, int& comparisons) {
+    comparisons = 0;
+    for (size_t i = 0; i < arr.size(); ++i) {
+        comparisons++;
+        if (arr[i] == value) return i;
+    }
+    return -1;
+}
+
+int binarySearch(const vector<int>& arr, int value, int& comparisons) {
+    comparisons = 0;
+    int left = 0, right = arr.size() - 1;
+    while (left <= right) {
+        comparisons++;
+        int mid = left + (right - left) / 2;
+        if (arr[mid] == value) return mid;
+        else if (arr[mid] < value) left = mid + 1;
+        else right = mid - 1;
+    }
+    return -1;
+}
+
+int main() {
+    vector<int> numbers;
+    int n, value;
+
+    cout << "Enter number of elements: ";
+    cin >> n;
+
+    cout << "Enter " << n << " numbers: ";
+    for (int i = 0; i < n; ++i) {
+        int temp;
+        cin >> temp;
+        numbers.push_back(temp);
+    }
+
+    cout << "Enter value to search: ";
+    cin >> value;
+
+    int linearComparisons, binaryComparisons;
+    int linearIndex = linearSearch(numbers, value, linearComparisons);
+
+    sort(numbers.begin(), numbers.end());
+    int binaryIndex = binarySearch(numbers, value, binaryComparisons);
+
+    cout << "\nLinear Search: ";
+    if (linearIndex != -1) cout << "Found (Comparisons: " << linearComparisons << ")";
+    else cout << "Not Found (Comparisons: " << linearComparisons << ")";
+
+    cout << "\nBinary Search: ";
+    if (binaryIndex != -1) cout << "Found (Comparisons: " << binaryComparisons << ")";
+    else cout << "Not Found (Comparisons: " << binaryComparisons << ")";
+
+    cout << endl;
+    return 0;
+}
